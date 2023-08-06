@@ -201,6 +201,7 @@ const isVisibleBanner = ref(true)
 .navbar {
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow-x: auto;
 
   position: sticky;

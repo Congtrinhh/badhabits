@@ -5,39 +5,41 @@
       <img src="@/assets/home/welcome.webp" alt="barcode welcome" />
     </section>
 
-    <!--  -->
+    <!-- section scroll 1 -->
     <section class="section-bg-scroll first">
       <div class="container">
         <div class="col-banner left">
-          <div class="banner top"></div>
-          <div class="banner bottom"></div>
+          <div class="banner top"><img src="@/assets/home/bg1-left-inner-1.webp" alt="" /></div>
+          <div class="banner bottom">
+            <img src="@/assets/home/bg1-left-inner-2.webp" alt="" />
+          </div>
         </div>
         <div class="col-banner right">
-          <div class="banner"></div>
+          <div class="banner"><img src="@/assets/home/bg1-right-inner.webp" alt="" /></div>
         </div>
       </div>
     </section>
 
-    <!-- gallery  -->
-    <section class="section-banner">
+    <!-- section banner first  -->
+    <section class="section-banner first">
       <div class="container">
-        <a-row>
-          <a-col :xs="24">
+        <a-row :gutter="30">
+          <a-col :xs="24" :md="12">
             <div class="banner">
               <img src="@/assets/home/banner-rebels.webp" alt="banner-rebels" />
             </div>
           </a-col>
-          <a-col :xs="24">
+          <a-col :xs="24" :md="12">
             <div class="banner">
               <img src="@/assets/home/banner-make.webp" alt="banner-make" />
             </div>
           </a-col>
-          <a-col :xs="24">
+          <a-col :xs="24" :md="12">
             <div class="banner">
               <img src="@/assets/home/banner-difference.webp" alt="banner-difference" />
             </div>
           </a-col>
-          <a-col :xs="24">
+          <a-col :xs="24" :md="12">
             <div class="banner">
               <img src="@/assets/home/banner-2023.webp" alt="banner-2023" />
             </div>
@@ -46,20 +48,46 @@
       </div>
     </section>
 
-    <!-- hero -->
+    <!-- section scroll 2 -->
+    <section class="section-bg-scroll second">
+      <div class="container">
+        <div class="col-banner"><img src="@/assets/home/bg2-inner-1.webp" alt="" /></div>
+        <div class="col-banner"><img src="@/assets/home/bg2-inner-2.webp" alt="" /></div>
+      </div>
+    </section>
 
-    <!-- new arrivals -->
+    <!-- section banner second -->
+    <section class="section-banner second">
+      <div class="container">
+        <img src="@/assets/home/banner-products.webp" alt="grid products" />
+      </div>
+    </section>
 
-    <!-- best sellers -->
-    <a-row>
-      <a-col :xs="24" :md="12" :lg="8" :xl="6" v-for="product in bestSellers" :key="product.id">
-        <ZProduct :data="product"></ZProduct>
-      </a-col>
-    </a-row>
+    <!-- best sellers -swiper js -->
+    <section class="section-best-selling">
+      <div class="container">
+        <div class="header">
+          <h2>Best-selling items</h2>
+          <div class="icon"></div>
+        </div>
+        <div class="list">
+          <a-row>
+            <a-col
+              :xs="24"
+              :md="12"
+              :lg="8"
+              :xl="6"
+              v-for="product in bestSellers"
+              :key="product.id"
+            >
+              <ZProduct :data="product"></ZProduct>
+            </a-col>
+          </a-row>
+        </div>
+      </div>
+    </section>
 
-    <!-- blog posts list -->
-
-    <!-- register email -->
+    <!-- section banner third -->
   </main>
 </template>
 
@@ -116,4 +144,133 @@ function getBestSellers() {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+#home {
+  .section-bg-scroll.first,
+  .section-banner.first,
+  .section-banner.second {
+    margin-bottom: 100px;
+  }
+}
+.section-barcode {
+  padding-bottom: 40px;
+}
+
+.section-bg-scroll.first {
+  background-image: url(@/assets/home/bg1.webp);
+  overflow: auto;
+
+  // min-height: 500px;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  .container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+
+    padding: 0 16px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+
+    .col-banner.left {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+
+      display: flex;
+      flex-direction: column;
+      gap: 45px;
+    }
+    .col-banner.right {
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+    }
+  }
+}
+
+.section-banner.first {
+  .container {
+    padding: 0 16px;
+    .banner {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.section-bg-scroll.second {
+  background-image: url(@/assets/home/bg2.webp);
+  overflow: auto;
+
+  // min-height: 500px;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .container {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 0 16px;
+
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    .col-banner {
+      flex-basis: 50%;
+      flex-grow: 1;
+    }
+  }
+}
+
+.section-best-selling {
+  .container {
+    max-width: 1440px;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    .icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .section-bg-scroll.second {
+    .container {
+      gap: 46px;
+    }
+  }
+}
+@media (min-width: 992px) {
+  .section-bg-scroll.first {
+    .container {
+      max-width: 45%;
+      gap: 96px;
+      .col-banner.left {
+        gap: 65px;
+      }
+    }
+  }
+
+  .section-banner.first {
+    .container {
+      width: 60%;
+    }
+  }
+
+  .section-bg-scroll.second {
+    .container {
+      width: 65%;
+      gap: 92px;
+    }
+  }
+}
+</style>
