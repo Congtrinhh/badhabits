@@ -70,19 +70,58 @@
           <h2>Best-selling items</h2>
           <div class="icon"></div>
         </div>
-        <div class="list">
-          <a-row>
-            <a-col
-              :xs="24"
-              :md="12"
-              :lg="8"
-              :xl="6"
-              v-for="product in bestSellers"
-              :key="product.id"
-            >
+        <div class="list-wrapper">
+          <swiper
+            :watchSlidesProgress="true"
+            :slides-per-view="2.5"
+            class="swiperBestSelling"
+            :rewind="true"
+            :navigation="{
+              prevEl: '.swiper-custom-prev-button',
+              nextEl: '.swiper-custom-next-button'
+            }"
+            :modules="swiperModules"
+            :breakpoints="{
+              992: {
+                slidesPerView: 3
+              }
+            }"
+          >
+            <swiper-slide v-for="product in bestSellers" :key="product.id">
               <ZProduct :data="product"></ZProduct>
-            </a-col>
-          </a-row>
+            </swiper-slide>
+
+            <!-- <template #container-end> -->
+            <div class="swiper-custom-prev-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                <mask id="ipSLeftOne0">
+                  <path
+                    fill="#fff"
+                    stroke="#fff"
+                    stroke-linejoin="round"
+                    stroke-width="4"
+                    d="M30 36L18 24l12-12v24Z"
+                  />
+                </mask>
+                <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSLeftOne0)" />
+              </svg>
+            </div>
+            <div class="swiper-custom-next-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+                <mask id="ipSRightOne0">
+                  <path
+                    fill="#fff"
+                    stroke="#fff"
+                    stroke-linejoin="round"
+                    stroke-width="4"
+                    d="m20 12l12 12l-12 12V12Z"
+                  />
+                </mask>
+                <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSRightOne0)" />
+              </svg>
+            </div>
+            <!-- </template> -->
+          </swiper>
         </div>
       </div>
     </section>
@@ -96,6 +135,19 @@ import { Product } from '@/models/product.model'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 import ZProduct from '@/components/ZProduct.vue'
+import 'swiper/css'
+import 'swiper/css/navigation'
+
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation } from 'swiper/modules'
+
+//#region Swiper
+// Swiper
+
+import { register } from 'swiper/element/bundle'
+// register Swiper custom elements
+register()
+//#endregion
 
 const bestSellers = ref<Product[]>([
   {
@@ -132,6 +184,20 @@ const bestSellers = ref<Product[]>([
     price: 9990000,
     imageUrl: 'https://picsum.photos/400',
     shortDesc: 'Siêu đẹp và rẻ nha mọi người'
+  },
+  {
+    id: 6,
+    name: 'Quần tây phong cách Sartorial hiệu TÌM',
+    price: 9990000,
+    imageUrl: 'https://picsum.photos/400',
+    shortDesc: 'Siêu đẹp và rẻ nha mọi người'
+  },
+  {
+    id: 7,
+    name: 'Quần tây phong cách Sartorial hiệu TÌM',
+    price: 9990000,
+    imageUrl: 'https://picsum.photos/400',
+    shortDesc: 'Siêu đẹp và rẻ nha mọi người'
   }
 ])
 
@@ -142,6 +208,8 @@ onMounted(() => {
 function getBestSellers() {
   //
 }
+
+const swiperModules = [Navigation]
 </script>
 
 <style scoped lang="scss">
@@ -240,8 +308,38 @@ function getBestSellers() {
       height: 20px;
     }
   }
+
+  .list-wrapper {
+    padding-bottom: 60px;
+  }
 }
 
+/** Swiper */
+.swiperBestSelling {
+  overflow-y: visible;
+}
+
+.swiper-custom-prev-button,
+.swiper-custom-next-button {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+.swiper-custom-prev-button {
+  top: calc(100% + 20px);
+  left: 20px;
+}
+.swiper-custom-next-button {
+  top: calc(100% + 20px);
+  left: 60px;
+}
+
+// Responsive
 @media (min-width: 576px) {
   .section-bg-scroll.second {
     .container {
