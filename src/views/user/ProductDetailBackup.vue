@@ -1,69 +1,83 @@
 <template>
   <div id="productDetailWrapper">
-    <main class="top">
-      <div class="slider-wrapper one">
-        <swiper
-          :watchSlidesProgress="true"
-          :slides-per-view="1"
-          :rewind="true"
-          :navigation="{
-            prevEl: '.swiper-custom-prev-button',
-            nextEl: '.swiper-custom-next-button'
-          }"
-          :pagination="{
-            clickable: true
-          }"
-          :modules="swiperModules"
-        >
-          <swiper-slide v-for="image in mobileImages" :key="image.id">
-            <img :src="image.url" alt="an image for product" />
-          </swiper-slide>
-        </swiper>
-      </div>
-      <div class="product-info-wrapper">
-        <div class="name"></div>
-        <div class="price-wrapper">
-          <div class="initial-price">400000</div>
-          <div class="current-price">400000</div>
-          <div class="type">oversized fit</div>
-          <div class="feature-wrapper">
-            • Chất liệu: Cotton cao cấp <br />• Graphic: In mặt trước và mặt sau, Logo trên tay áo
-            được thêu <br />• Kỹ thuật: in và thêu
-          </div>
-          <hr />
-          <div class="select-option-wrapper">
-            <div class="select-size-wrapper">
-              <span class="title">size</span>
-              <ul class="list">
-                <li class="list-item" v-for="size in sizes" :key="size.id">{{ size.name }}</li>
-              </ul>
+    <div class="product-info-wrapper">
+      <div class="image-slider-wrapper"></div>
+      <div class="detail-wrapper">
+        <h3 class="product-name">
+          {{ product.name }}
+        </h3>
+        <div class="product-price-wrapper">
+          <div class="current-price">{{ product.price }}</div>
+          <div class="previous-price">{{ product.price }}</div>
+          <div class="discount-percent-label">-2%</div>
+        </div>
+
+        <div class="color-selection-wrapper">
+          <span>Chọn màu sắc</span>
+          <div class="color-list">
+            <div class="list-item" v-for="color in colors" :key="color.id">
+              <!-- <img src="" alt=""> -->
+              {{ color.name }}
             </div>
-            <div class="select-size-guide"></div>
-            <div class="return-policy"></div>
-            <button class="add-to-cart-button">
-              thêm vào giỏ hàng
-              <div class="icon"></div>
-            </button>
-            <div class="signature"></div>
+          </div>
+        </div>
+
+        <div class="size-selection-wrapper">
+          <span>Chọn size</span>
+          <div class="size-list">
+            <v-radio-group v-model="selectedSizeId" inline>
+              <v-radio v-for="size in sizes" :key="size.id" :name="size.name" :value="size.id">
+                <template #label>
+                  <div :class="['size-item', { active: size.id === selectedSizeId }]">
+                    {{ size.name }}
+                  </div>
+                </template>
+              </v-radio>
+            </v-radio-group>
+          </div>
+        </div>
+
+        <div class="quantity-wrapper">
+          <div class="quantity-button-wrapper">
+            <span @click="decrease" class="decrease-button">-</span>
+            <input type="number" v-model="product.quantity" />
+            <span @click="increase" class="increase-button">+</span>
+          </div>
+
+          <a-button @click="addProductToCart">MUA NGAY</a-button>
+
+          <v-icon icon="mdi-heart-outline" size="large"></v-icon>
+        </div>
+
+        <div class="outstanding-feature-wrapper">
+          <div class="feature" v-for="feature in features" :key="feature.id">
+            <v-icon class="icon" :icon="feature.icon" size="x-large"></v-icon>
+            <div class="detail-wrapper">
+              <div class="title">{{ feature.title }}</div>
+              <div class="desc bold">{{ feature.desc }}</div>
+            </div>
           </div>
         </div>
       </div>
-    </main>
-    <section class="bottom">
-      <div class="container">
-        <div class="title">bạn cũng có thể thích</div>
-        <a-row :gutter="[15, 15]">
-          <a-col
-            :xs="{ span: 12 }"
-            :lg="{ span: 6 }"
-            v-for="product in relatedProducts"
-            :key="product.id"
-          >
-            <ZProduct :data="product" />
-          </a-col>
-        </a-row>
+
+      <!-- product detail information -->
+      <div class="product-detail-information-wrapper"></div>
+
+      <!-- customer review -->
+      <div class="customer-review-wrapper"></div>
+    </div>
+    <div class="related-products-wrapper">
+      <div class="title">Sản phẩm gợi ý dành riêng cho bạn</div>
+      <div class="list">
+        <VRow>
+          <VCol sm="6" md="4" lg="3" v-for="item in relatedProducts" :key="item.id">
+            <v-sheet class="pa-3 ma-3">
+              <ZProduct :data="item" />
+            </v-sheet>
+          </VCol>
+        </VRow>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
@@ -77,13 +91,6 @@ import { ref } from 'vue'
 import ZProduct from '@/components/ZProduct.vue'
 import { useRoute } from 'vue-router'
 import { useCartStore } from '@/stores/cart'
-import { Navigation, Pagination } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import 'swiper/css'
-
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-// register Swiper custom elements
 
 const cartStore = useCartStore()
 
@@ -224,15 +231,62 @@ const relatedProducts = ref<Product[]>([
     shortDesc: 'Siêu đẹp và rẻ nha mọi người'
   }
 ])
-
-const swiperModules = [Navigation, Pagination]
-const mobileImages = [
-  { id: 1, url: 'https://picsum.photos/400' },
-  { id: 1, url: 'https://picsum.photos/400' },
-  { id: 1, url: 'https://picsum.photos/400' },
-  { id: 1, url: 'https://picsum.photos/400' },
-  { id: 1, url: 'https://picsum.photos/400' }
-]
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+:deep(.size-list .v-selection-control__wrapper) {
+  display: none;
+}
+
+:deep(.size-list .v-label) {
+  opacity: 1;
+}
+
+.size-item {
+  border: 1px solid #000;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+
+  &.active {
+    background-color: #333;
+    color: #fff;
+  }
+}
+
+.outstanding-feature-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: #f7f7f7;
+  padding: 16px;
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+
+    .desc {
+      font-size: 12px;
+      color: #737373;
+      &.bold {
+        font-weight: 700;
+        font-size: 15px;
+        color: #000;
+      }
+    }
+  }
+}
+
+.related-products-wrapper {
+  .title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgb(213, 15, 15);
+  }
+}
+</style>

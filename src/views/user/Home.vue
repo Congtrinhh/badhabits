@@ -67,7 +67,7 @@
     <section class="section-best-selling">
       <div class="container">
         <div class="header">
-          <h2>Best-selling items</h2>
+          <h2 class="text">Best-selling items</h2>
           <div class="icon"></div>
         </div>
         <div class="list-wrapper">
@@ -87,7 +87,11 @@
               }
             }"
           >
-            <swiper-slide v-for="product in bestSellers" :key="product.id">
+            <swiper-slide
+              v-for="product in bestSellers"
+              :key="product.id"
+              style="margin-right: 10px"
+            >
               <ZProduct :data="product"></ZProduct>
             </swiper-slide>
 
@@ -127,6 +131,11 @@
     </section>
 
     <!-- section banner third -->
+    <section class="section-banner third">
+      <div class="container">
+        <img src="@/assets/home/banner-section-3.webp" alt="3 fashion men" />
+      </div>
+    </section>
   </main>
 </template>
 
@@ -215,8 +224,7 @@ const swiperModules = [Navigation]
 <style scoped lang="scss">
 #home {
   .section-bg-scroll.first,
-  .section-banner.first,
-  .section-banner.second {
+  .section-banner.first {
     margin-bottom: 100px;
   }
 }
@@ -261,6 +269,7 @@ const swiperModules = [Navigation]
 }
 
 .section-banner.first {
+  margin-bottom: 50px;
   .container {
     padding: 0 16px;
     .banner {
@@ -296,6 +305,7 @@ const swiperModules = [Navigation]
 }
 
 .section-best-selling {
+  margin-bottom: 40px;
   .container {
     max-width: 1440px;
   }
@@ -303,6 +313,14 @@ const swiperModules = [Navigation]
     display: flex;
     align-items: center;
     gap: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
+    .text {
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
     .icon {
       width: 20px;
       height: 20px;
@@ -312,6 +330,14 @@ const swiperModules = [Navigation]
   .list-wrapper {
     padding-bottom: 60px;
   }
+}
+
+.section-banner.second {
+  margin-bottom: 50px;
+}
+
+.section-banner.third {
+  margin-bottom: 50px;
 }
 
 /** Swiper */
@@ -359,9 +385,14 @@ const swiperModules = [Navigation]
   }
 
   .section-banner.first {
+    margin-bottom: 100px;
     .container {
       width: 60%;
     }
+  }
+
+  .section-banner.second {
+    margin-bottom: 100px;
   }
 
   .section-bg-scroll.second {
@@ -369,6 +400,14 @@ const swiperModules = [Navigation]
       width: 65%;
       gap: 92px;
     }
+  }
+
+  .section-banner.third {
+    margin-bottom: 100px;
+  }
+
+  .section-best-selling {
+    margin-bottom: 70px;
   }
 }
 </style>

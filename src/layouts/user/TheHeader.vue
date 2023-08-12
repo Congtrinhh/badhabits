@@ -67,7 +67,8 @@
 import ZCartPopup from '@/components/ZCartPopup.vue'
 import ZAccountPopup from '@/components/ZAccountPopup.vue'
 import ZSearchProduct from '@/components/ZSearchProduct.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 //#region Sidebar
 const sidebarItems = [
@@ -113,7 +114,7 @@ function hideSidebar() {
 //#endregion
 
 //#region Banner
-const isVisibleBanner = ref(true)
+const isVisibleBanner = ref(false)
 //#endregion
 
 //#region Navbar
@@ -128,6 +129,8 @@ const isVisibleBanner = ref(true)
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
+    max-width: 1440px;
+    margin: auto;
   }
   .left-wrapper {
     display: flex;
