@@ -157,6 +157,8 @@ import { register } from 'swiper/element/bundle'
 // register Swiper custom elements
 register()
 //#endregion
+const v =
+  'https://docs.google.com/document/d/1KCcq1AiExIqCB-x82HH4TXPnwAxRp6G0/edit?usp=sharing&ouid=117528695748394761576&rtpof=true&sd=true'
 
 const bestSellers = ref<Product[]>([
   {
