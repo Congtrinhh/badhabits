@@ -36,6 +36,9 @@
 
   --section-gap: 160px;
 
+  --black-color: #000;
+  --white-color: #fff;
+
   /* my variables */
   --primary-color: #000;
   --secondary-color: rgb(244, 121, 22);

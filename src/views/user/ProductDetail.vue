@@ -91,25 +91,36 @@
         <div class="horizontal-line"></div>
 
         <div class="select-option-wrapper">
-          <div class="select-option-group select-size-wrapper">
+          <div class="select-option-group">
             <span class="title">size:</span>
-            <ul class="list">
-              <li class="list-item" v-for="size in sizes" :key="size.id">{{ size.name }}</li>
-            </ul>
+            <a-radio-group v-model:value="product.sizeId" class="list">
+              <a-radio-button v-for="size in sizes" :key="size.id" :value="size.id">{{
+                size.name
+              }}</a-radio-button>
+            </a-radio-group>
+          </div>
+          <div class="select-option-group">
+            <span class="title">Màu:</span>
+            <a-radio-group v-model:value="product.colorId" class="list">
+              <a-radio-button v-for="color in colors" :key="color.id" :value="color.id">{{
+                color.name
+              }}</a-radio-button>
+            </a-radio-group>
           </div>
           <div class="select-size-guide">HƯỚNG DẪN CHỌN SIZE</div>
           <div class="return-policy">CHÍNH SÁCH ĐỔI TRẢ</div>
-          <button class="add-to-cart-button">
+          <button @click="addItemToCart" class="add-to-cart-button">
             <div class="text">thêm vào giỏ hàng</div>
             <div class="icon"></div>
           </button>
+          <div class="error-message" v-show="warningMsg">{{ warningMsg }}</div>
           <div class="signature"></div>
         </div>
       </div>
     </main>
     <section class="bottom">
       <div class="container">
-        <div class="title">bạn cũng có thể thích</div>
+        <div class="title label">bạn cũng có thể thích</div>
         <a-row :gutter="[15, 15]">
           <a-col
             :xs="{ span: 12 }"
@@ -151,7 +162,9 @@ const product = ref<Product>({
   price: 999000,
   imageUrl: 'https://picsum.photos/400',
   shortDesc: 'Siêu đẹp và rẻ nha mọi người',
-  quantity: 1
+  quantity: 1,
+  sizeId: -1,
+  colorId: -1
 })
 onMounted(() => {
   // get slug from url route and call api get product
@@ -329,6 +342,27 @@ const isMobile = computed((): boolean => {
   return true
 })
 //#endregion
+
+//#region Product
+const warningMsg = ref<string>('')
+function isProductValid(): boolean {
+  if (!product.value.sizeId) {
+    warningMsg.value = 'Vui lòng chọn size'
+    return false
+  }
+  if (!product.value.colorId) {
+    warningMsg.value = 'Vui lòng chọn màu'
+    return false
+  }
+  warningMsg.value = ''
+  return true
+}
+function addItemToCart() {
+  if (isProductValid()) {
+    cartStore.saveCartItem(product.value)
+  }
+}
+//#endregion
 </script>
 
 <style lang="scss" scoped>
@@ -416,7 +450,7 @@ main.top {
     gap: 8px;
     .select-option-group {
       display: flex;
-      align-items: baseline;
+      align-items: self-end;
       .title {
         text-transform: uppercase;
         font-weight: bold;
@@ -468,7 +502,7 @@ main.top {
     }
 
     .signature {
-      background-image: url(/src/assets/product-detail/signature.webp);
+      background-image: url(@/assets/product-detail/signature.webp);
       width: 100%;
       height: 75px;
       background-repeat: no-repeat;
@@ -476,6 +510,49 @@ main.top {
 
       margin-top: 24px;
     }
+  }
+}
+
+// Radio group
+.ant-radio-button-wrapper {
+  cursor: pointer;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  margin: 0 0 5px 5px;
+  text-align: center;
+  padding: 0 5px;
+  font-size: 18px;
+  display: inline-block;
+  min-width: 28px;
+  max-height: 28px;
+  line-height: 28px;
+  background-color: var(--white-color);
+
+  transition: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  border-color: var(--black-color);
+}
+.ant-radio-button-wrapper:not(:first-child)::before {
+  display: none;
+}
+
+// Bottom
+section.bottom {
+  .label {
+    background-color: var(--black-color);
+    padding: 5px 15px;
+    border-radius: 3px;
+    font-weight: bold;
+    color: var(--white-color);
+    display: inline-block;
+    margin-bottom: 16px;
   }
 }
 
@@ -562,6 +639,22 @@ main.top {
     top: 50%;
     right: 45px;
     transform: translate(0, -50%);
+  }
+
+  // Bottom
+  section.bottom {
+    .container {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  section.bottom {
+    .container {
+      width: 85%;
+      max-width: 1440px;
+    }
   }
 }
 </style>
