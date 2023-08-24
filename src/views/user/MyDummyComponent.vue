@@ -29,7 +29,7 @@ const people: any[] = ref([
   }
 ])
 
-function isVisible(person): boolean {
+function isVisible(person: any): boolean {
   const isStudent = person.isStudent
   const isAdult = person.age > 18
   let isGoodProgrammer = false
@@ -41,7 +41,7 @@ function isVisible(person): boolean {
   return isStudent || isAdult || isGoodProgrammer
 }
 
-function isVisible2(person): boolean {
+function isVisible2(person: any): boolean {
   const isStudent = person.isStudent
   const isAdult = person.age > 18
 
