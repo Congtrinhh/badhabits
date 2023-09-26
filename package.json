@@ -1,7 +1,6 @@
 {
   "type": "module",
   "name": "frontend",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -15,6 +14,7 @@
   },
   "dependencies": {
     "ant-design-vue": "^4.0.0",
+    "firebase": "^10.4.0",
     "node-fetch": "^3.3.2",
     "pinia": "^2.1.4",
     "swiper": "^10.1.0",

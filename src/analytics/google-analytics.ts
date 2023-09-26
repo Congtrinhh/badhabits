@@ -1,34 +1,8 @@
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/reset.css'
-import './assets/main.css'
-import { createPinia } from 'pinia'
-
-import router from './router'
-
-// Components
-import App from './App.vue'
-
-// Composables
-import { createApp } from 'vue'
-
-// Plugins
-import { registerPlugins } from '@/plugins'
-import { registerGlobalDirectives } from './directives'
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
-
-const app = createApp(App)
-
-app.use(createPinia())
-app.use(router)
-app.use(Antd)
-
-registerPlugins(app)
-registerGlobalDirectives(app)
-
-app.mount('#app')
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -43,5 +17,4 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig)
-const analytics = getAnalytics(firebaseApp)
+const app = initializeApp(firebaseConfig)

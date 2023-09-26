@@ -1,7 +1,7 @@
 <template>
   <main id="home">
     <!-- barcode -->
-    <section class="section-barcode">
+    <section class="section-barcode" @click="sendAnalytic">
       <img src="@/assets/home/welcome.webp" alt="barcode welcome" />
     </section>
 
@@ -150,6 +150,8 @@ import 'swiper/css/navigation'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Navigation } from 'swiper/modules'
 
+import { getAnalytics, logEvent } from 'firebase/analytics'
+
 //#region Swiper
 // Swiper
 
@@ -221,6 +223,13 @@ function getBestSellers() {
 }
 
 const swiperModules = [Navigation]
+
+//#region Google analytics
+function sendAnalytic() {
+  const analytics = getAnalytics()
+  logEvent(analytics, 'notification_received')
+}
+//#endregion
 </script>
 
 <style scoped lang="scss">
